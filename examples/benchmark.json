@@ -1,0 +1,134 @@
+{
+  "environment": {
+    "date": "2026-11-20",
+    "python": "3.12.3",
+    "platform": "Windows 11 (AMD64)",
+    "cpu_count": 16,
+    "trawl": "2.0.0"
+  },
+  "throughput": [
+    {
+      "workers": 1,
+      "pages": 1189,
+      "seconds": 29.0,
+      "pages_per_sec": 41.0,
+      "items": 1000,
+      "items_match_ground_truth": true,
+      "p50_ms": 21.4,
+      "p95_ms": 22.6
+    },
+    {
+      "workers": 4,
+      "pages": 1189,
+      "seconds": 9.4,
+      "pages_per_sec": 126.5,
+      "items": 1000,
+      "items_match_ground_truth": true,
+      "p50_ms": 24.5,
+      "p95_ms": 32.6
+    },
+    {
+      "workers": 8,
+      "pages": 1189,
+      "seconds": 8.23,
+      "pages_per_sec": 144.5,
+      "items": 1000,
+      "items_match_ground_truth": true,
+      "p50_ms": 33.0,
+      "p95_ms": 58.5
+    },
+    {
+      "workers": 16,
+      "pages": 1189,
+      "seconds": 4.64,
+      "pages_per_sec": 256.1,
+      "items": 1000,
+      "items_match_ground_truth": true,
+      "p50_ms": 40.8,
+      "p95_ms": 64.7
+    }
+  ],
+  "recrawl": {
+    "cold": {
+      "pages": 1189,
+      "seconds": 4.56,
+      "bytes_on_wire": 1219599
+    },
+    "recrawl_unchanged": {
+      "pages": 1189,
+      "seconds": 2.69,
+      "bytes_on_wire": 441392,
+      "not_modified_304": 1000,
+      "product_pages": 1000,
+      "fingerprint_unchanged": 188,
+      "items_reported_changed": 0,
+      "bytes_saved_pct": 63.8,
+      "speedup_vs_cold": 1.7
+    },
+    "after_site_change": {
+      "seconds": 4.07,
+      "pages": 1185,
+      "changed_truth": 46,
+      "changed_detected": 46,
+      "true_positives": 46,
+      "precision": 1.0,
+      "recall": 1.0,
+      "removed_truth": 4,
+      "removed_detected": 4,
+      "removed_exact": true,
+      "items_match_ground_truth_v2": true
+    }
+  },
+  "politeness": {
+    "token_bucket": {
+      "configured_rate": 5.0,
+      "expected_gap_s": 0.2,
+      "requests": 40,
+      "server_min_gap_s": 0.1784,
+      "server_mean_gap_s": 0.2,
+      "client_min_gap_s": 0.1999,
+      "observed_rate": 5.0
+    },
+    "robots_crawl_delay": {
+      "crawl_delay_s": 0.5,
+      "requests": 10,
+      "server_min_gap_s": 0.4993,
+      "server_mean_gap_s": 0.5003,
+      "client_min_gap_s": 0.5001,
+      "observed_rate": 1.999
+    }
+  },
+  "resilience": {
+    "flaky_fraction": 0.05,
+    "failures_per_url": 2,
+    "injected_503s": 134,
+    "retries": 134,
+    "failed_pages": 0,
+    "seconds": 9.72,
+    "items_match_ground_truth": true
+  },
+  "micro": {
+    "parse_product_page_ms": 1.845,
+    "product_page_kb": 1.7,
+    "extract_8_fields_ms": 0.895,
+    "extract_links_listing_ms": 2.822,
+    "css_select_listing_ms": 0.628,
+    "robots_can_fetch_us": 341.95,
+    "robots_rules": 101,
+    "frontier_op_us": 17.55
+  },
+  "config": {
+    "books": 1000,
+    "site_pages": 1189,
+    "latency_ms": 20.0,
+    "workers": [
+      1,
+      4,
+      8,
+      16
+    ],
+    "change_workers": 16,
+    "rate": 5.0,
+    "crawl_delay": 0.5
+  }
+}

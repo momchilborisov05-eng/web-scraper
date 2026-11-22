@@ -1,0 +1,21 @@
+services:
+  trawl:
+    build: .
+    image: trawl:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - trawl-data:/data         # SQLite: runs, pages, validators, items and their version history
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+# Populate the database (offline demo or a real crawl), then open http://localhost:8000
+#   docker compose run --rm trawl python -m trawl demo --db /data/trawl.db
+#   docker compose run --rm trawl python -m trawl crawl --db /data/trawl.db --max-pages 200
+
+volumes:
+  trawl-data:

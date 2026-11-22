@@ -1,0 +1,54 @@
+# Crawl spec for https://books.toscrape.com (a sandbox site built for scraping practice).
+# The bundled fixture site uses the same markup, so `--seed http://127.0.0.1:PORT/` reuses these rules offline.
+name: books
+seeds:
+  - https://books.toscrape.com/
+user_agent: TrawlBot/1.0 (+https://github.com/momchilborisov05-eng/web-scraper)
+
+politeness:
+  rate: 2             # requests per second per host (token bucket); robots.txt Crawl-delay can only lower it
+  burst: 2
+  per_host_concurrency: 2
+
+crawl:
+  concurrency: 4      # fetch worker threads
+  max_pages: 1500
+  max_depth: 60       # pagination chains are deep: page-50 is 49 hops from the home page
+  timeout: 15
+  max_attempts: 4     # first try + 3 retries for 408/429/5xx/network errors
+  backoff_base: 0.5
+  backoff_cap: 30
+
+follow:
+  allow:
+    - '^/(index\.html)?$'
+    - '^/catalogue/'
+  deny:
+    - '\?'            # sorted/filtered views duplicate the listing pages
+
+priority:             # lower runs first: discover listings breadth-first, then fetch books
+  - { pattern: '/catalogue/category/', priority: 1 }
+  - { pattern: 'page-\d+\.html$', priority: 0 }
+  - { pattern: '/catalogue/[^/]+_\d+/index\.html$', priority: 2 }
+
+change_detection:
+  ignore:
+    - footer          # "rendered at" timestamps would make every page look changed
+
+items:
+  - name: book
+    url: '^/catalogue/(?!category/)[^/]+_\d+/index\.html$'
+    key: upc
+    fields:
+      upc:         { css: 'table.table-striped th:contains("UPC") + td', required: true }
+      title:       { css: 'div.product_main h1', required: true }
+      price:       { css: 'div.product_main p.price_color', type: money, required: true }
+      rating:
+        css: 'div.product_main p.star-rating'
+        attr: class
+        regex: 'star-rating (\w+)'
+        map: { One: 1, Two: 2, Three: 3, Four: 4, Five: 5 }
+      stock:       { css: 'div.product_main p.availability', regex: '\((\d+) available\)', type: int, default: 0 }
+      in_stock:    { css: 'div.product_main p.availability', type: bool, regex: '(In stock|Out of stock)' }
+      category:    { css: 'ul.breadcrumb li:nth-child(3) a' }
+      description: { css: '#product_description + p' }

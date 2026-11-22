@@ -1,0 +1,16 @@
+.git
+.github
+.env
+.venv
+venv
+__pycache__
+*.pyc
+*.db*
+*.xlsx
+*.csv
+.coverage
+.pytest_cache
+.ruff_cache
+tests
+scripts
+examples

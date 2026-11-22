@@ -1,0 +1,41 @@
+[project]
+name = "trawl"
+version = "2.0.0"
+description = "A polite web crawler and scraping framework: hand-written robots.txt parser, per-host token buckets, retries with jittered backoff, conditional re-crawls, declarative CSS extraction rules, change tracking in SQLite and a dashboard."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Momchil Borisov" }]
+license = { text = "MIT" }
+dependencies = ["flask>=3.0", "pyyaml>=6.0", "openpyxl>=3.1"]
+
+[project.optional-dependencies]
+server = ["gunicorn>=22.0; platform_system != 'Windows'"]
+
+[project.scripts]
+trawl = "trawl.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["trawl*"]
+
+[tool.setuptools.package-data]
+trawl = ["web/static/*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]   # long SQL strings and HTML templates read better unwrapped
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.coverage.run]
+source = ["trawl"]
+omit = ["trawl/__main__.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
