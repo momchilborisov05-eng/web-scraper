@@ -40,7 +40,7 @@ jobs:
           cache: pip
           cache-dependency-path: requirements*.txt
       - run: pip install -r requirements.txt -r requirements-dev.txt
-      - name: Tests with coverage (offline: the fixture site replaces the network)
+      - name: "Tests with coverage (offline: the fixture site replaces the network)"
         run: |
           coverage run -m pytest -q
           coverage report --fail-under=85
